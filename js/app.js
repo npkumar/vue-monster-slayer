@@ -3,7 +3,11 @@ new Vue({
     data: {
         playerHealth: 100,
         monsterHealth: 100,
-        hasGameStarted: false
+        hasGameStarted: false,
+        maxPlayerDamage: 10,
+        minPlayerDamage: 5,
+        maxMonsterDamage: 15,
+        minMonsterDamage: 4
     },
     methods: {
         startGame: function() {
@@ -12,21 +16,21 @@ new Vue({
             this.hasGameStarted = true;
         },
         attack: function() {
-            const maxPlayerDamage = 10;
-            const minPlayerDamage = 5;
-            const maxMonsterDamage = 15;
-            const minMonsterDamage = 4;
-
             // do not deal damage if game is over
             if (this.checkGameStatus()) {
                 return;
             }
-            this.monsterHealth -= this.calculateDamage(minPlayerDamage, maxPlayerDamage);
-            this.playerHealth -= this.calculateDamage(minMonsterDamage, maxMonsterDamage);
+            this.monsterHealth -= this.calculateDamage(this.minPlayerDamage, this.maxPlayerDamage);
+            this.monsterAttack();
             this.checkGameStatus();
         },
         specialAttack: function () {
-
+            if (this.checkGameStatus()) {
+                return;
+            }
+            this.monsterHealth -= this.calculateDamage(this.minPlayerDamage + 20, this.maxPlayerDamage + 20);
+            this.monsterAttack();
+            this.checkGameStatus();
         },
         heal: function() {
 
@@ -36,6 +40,9 @@ new Vue({
         },
         calculateDamage: function(min, max) {
             return Math.max(Math.floor(Math.random() * max) + 1, min);
+        },
+        monsterAttack: function() {
+            this.playerHealth -= this.calculateDamage(this.minMonsterDamage, this.maxMonsterDamage);
         },
         checkGameStatus: function() {
             if (this.monsterHealth <= 0) {
