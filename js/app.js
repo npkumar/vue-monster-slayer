@@ -7,7 +7,9 @@ new Vue({
         maxPlayerDamage: 10,
         minPlayerDamage: 5,
         maxMonsterDamage: 15,
-        minMonsterDamage: 4
+        minMonsterDamage: 4,
+        healAmount: 10,
+        maxHealth: 100
     },
     methods: {
         startGame: function() {
@@ -33,7 +35,10 @@ new Vue({
             this.checkGameStatus();
         },
         heal: function() {
-
+            if (this.playerHealth + this.healAmount <= this.maxHealth) {
+                this.playerHealth += this.healAmount;
+            }
+            this.monsterAttack();
         },
         giveUp: function() {
 
