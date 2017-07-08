@@ -4,5 +4,12 @@ new Vue({
         playerHealth: 100,
         monsterHealth: 100,
         hasGameStarted: false
+    },
+    methods: {
+        startGame: function() {
+            this.playerHealth = 100;
+            this.monsterHealth = 100;
+            this.hasGameStarted = true;
+        }
     }
 });
